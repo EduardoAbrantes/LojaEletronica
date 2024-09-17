@@ -19,7 +19,7 @@ void MenuPrincipal() {
         printf("*************************************************\n");
         printf("1. Gestão de Estoque\n");
         printf("2. Suporte Técnico e Assistência\n");
-        printf("3. Gerenciar Promoções e Descontos\n");
+        printf("3. Gestão de clientes\n");
         printf("4. Sair\n");
         printf("Por favor, selecione uma opção (1-4): ");
         scanf("%d", &opcao);
@@ -35,8 +35,8 @@ void MenuPrincipal() {
                 menuSuporte();
                 break;
             case 3:
-                //menuPromocoes();
-                //a fazer
+                limpar_tela();
+                menuClientes();
                 break;
             case 4:
                 limpar_tela();
@@ -134,4 +134,50 @@ void menuSuporte() {
                 printf("Opção inválida! Tente novamente.\n");
         }
     } while (opcao != 5);
+}
+
+void menuClientes() {
+    int opcao;
+    do {
+        printf("*************************************************\n");
+        printf("*                Gestão de Clientes             *\n");
+        printf("*************************************************\n");
+        printf("1. Visualizar Clientes\n");
+        printf("2. Adicionar Novo Cliente\n");
+        printf("3. Editar Informações de Cliente\n");
+        printf("4. Remover Cliente\n");
+        printf("5. Buscar Cliente por Nome\n");
+        printf("6. Voltar ao Menu Principal\n");
+        printf("Por favor, selecione uma opção (1-6): ");
+        scanf("%d", &opcao);
+        getchar(); // Limpar o buffer do teclado após scanf
+
+        switch (opcao) {
+            case 1:
+                // Função para visualizar todos os clientes
+                printf("Função de visualizar clientes não implementada.\n");
+                break;
+            case 2:
+                // Função para adicionar novo cliente
+                printf("Função de adicionar novo cliente não implementada.\n");
+                break;
+            case 3:
+                // Função para editar informações de cliente
+                printf("Função de editar informações de cliente não implementada.\n");
+                break;
+            case 4:
+                // Função para remover cliente
+                printf("Função de remover cliente não implementada.\n");
+                break;
+            case 5:
+                // Função para buscar cliente por nome
+                printf("Função de buscar cliente por nome não implementada.\n");
+                break;
+            case 6:
+                printf("Voltando ao Menu Principal...\n");
+                break;
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+        }
+    } while (opcao != 6);
 }
