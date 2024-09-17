@@ -36,7 +36,7 @@ void MenuPrincipal() {
                 break;
             case 3:
                 limpar_tela();
-                menuClientes();
+                //menuGestaoClientes();
                 break;
             case 4:
                 limpar_tela();
@@ -130,44 +130,4 @@ void menuSuporte() {
                 printf("Opção inválida! Tente novamente.\n");
         }
     } while (opcao != 5);
-}
-
-void menuClientes() {
-    int opcao;
-    do {
-        printf("*************************************************\n");
-        printf("*                Gestão de Clientes             *\n");
-        printf("*************************************************\n");
-        printf("2. Adicionar Novo Cliente\n");
-        printf("3. atualizar Cliente\n");
-        printf("4. Remover Cliente\n");
-        printf("5. Buscar Cliente por Nome\n");
-        printf("6. Voltar ao Menu Principal\n");
-        printf("Por favor, selecione uma opção (1-6): ");
-        scanf("%d", &opcao);
-        getchar();
-
-        switch (opcao) {
-            case 1:
-                printf("Função de visualizar clientes não implementada.\n");
-                break;
-            case 2:
-                printf("Função de adicionar novo cliente não implementada.\n");
-                break;
-            case 3:
-                printf("Função de editar informações de cliente não implementada.\n");
-                break;
-            case 4:
-                printf("Função de remover cliente não implementada.\n");
-                break;
-            case 5:
-                printf("Função de buscar cliente por nome não implementada.\n");
-                break;
-            case 6:
-                printf("Voltando ao Menu Principal...\n");
-                break;
-            default:
-                printf("Opção inválida! Tente novamente.\n");
-        }
-    } while (opcao != 6);
 }
