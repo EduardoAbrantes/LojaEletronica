@@ -23,7 +23,7 @@ void MenuPrincipal() {
         printf("4. Sair\n");
         printf("Por favor, selecione uma opção (1-4): ");
         scanf("%d", &opcao);
-        getchar(); // Limpar o buffer do teclado após scanf
+        getchar();
 
         switch (opcao) {
             case 1:
@@ -107,23 +107,19 @@ void menuSuporte() {
         printf("5. Voltar ao Menu Principal\n");
         printf("Por favor, selecione uma opção (1-5): ");
         scanf("%d", &opcao);
-        getchar(); // Limpar o buffer do teclado após scanf
+        getchar();
 
         switch (opcao) {
             case 1:
-                // Função para registrar nova solicitação de suporte
                 printf("Função de registrar nova solicitação de suporte não implementada.\n");
                 break;
             case 2:
-                // Função para verificar status de solicitação
                 printf("Função de verificar status de solicitação não implementada.\n");
                 break;
             case 3:
-                // Função para atualizar status de solicitação
                 printf("Função de atualizar status de solicitação não implementada.\n");
                 break;
             case 4:
-                // Função para visualizar histórico de solicitações por cliente
                 printf("Função de visualizar histórico de solicitações por cliente não implementada.\n");
                 break;
             case 5:
@@ -142,35 +138,29 @@ void menuClientes() {
         printf("*************************************************\n");
         printf("*                Gestão de Clientes             *\n");
         printf("*************************************************\n");
-        printf("1. Visualizar Clientes\n");
         printf("2. Adicionar Novo Cliente\n");
-        printf("3. Editar Informações de Cliente\n");
+        printf("3. atualizar Cliente\n");
         printf("4. Remover Cliente\n");
         printf("5. Buscar Cliente por Nome\n");
         printf("6. Voltar ao Menu Principal\n");
         printf("Por favor, selecione uma opção (1-6): ");
         scanf("%d", &opcao);
-        getchar(); // Limpar o buffer do teclado após scanf
+        getchar();
 
         switch (opcao) {
             case 1:
-                // Função para visualizar todos os clientes
                 printf("Função de visualizar clientes não implementada.\n");
                 break;
             case 2:
-                // Função para adicionar novo cliente
                 printf("Função de adicionar novo cliente não implementada.\n");
                 break;
             case 3:
-                // Função para editar informações de cliente
                 printf("Função de editar informações de cliente não implementada.\n");
                 break;
             case 4:
-                // Função para remover cliente
                 printf("Função de remover cliente não implementada.\n");
                 break;
             case 5:
-                // Função para buscar cliente por nome
                 printf("Função de buscar cliente por nome não implementada.\n");
                 break;
             case 6:

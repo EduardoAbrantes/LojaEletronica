@@ -13,3 +13,4 @@ void limpar_tela();
 void MenuPrincipal();
 void menuEstoque();
 void menuSuporte();
+void menuClientes();

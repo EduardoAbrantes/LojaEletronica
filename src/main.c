@@ -1,4 +1,4 @@
-#include "funções.c"
+#include "cliente.c"
 
 int main(){
     
