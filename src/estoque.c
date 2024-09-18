@@ -62,3 +62,39 @@ int obterBalanceamento(NodoAVL* nodo) {
         return 0;
     return altura(nodo->esquerda) - altura(nodo->direita);
 }
+
+
+NodoAVL* inserir(NodoAVL* nodo, Item item) {
+    if (nodo == NULL)
+        return criarNodoAVL(item);
+
+    if (item.id < nodo->item.id)
+        nodo->esquerda = inserir(nodo->esquerda, item);
+    else if (item.id > nodo->item.id)
+        nodo->direita = inserir(nodo->direita, item);
+    else
+        return nodo; 
+
+    nodo->altura = 1 + max(altura(nodo->esquerda), altura(nodo->direita));
+
+    int balanceamento = obterBalanceamento(nodo);
+
+    if (balanceamento > 1 && item.id < nodo->esquerda->item.id)
+        return rotacaoDireita(nodo);
+
+    if (balanceamento < -1 && item.id > nodo->direita->item.id)
+        return rotacaoEsquerda(nodo);
+
+    if (balanceamento > 1 && item.id > nodo->esquerda->item.id) {
+        nodo->esquerda = rotacaoEsquerda(nodo->esquerda);
+        return rotacaoDireita(nodo);
+    }
+
+    if (balanceamento < -1 && item.id < nodo->direita->item.id) {
+        nodo->direita = rotacaoDireita(nodo->direita);
+        return rotacaoEsquerda(nodo);
+    }
+
+    return nodo;
+}
+
