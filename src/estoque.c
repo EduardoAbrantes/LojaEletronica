@@ -98,7 +98,7 @@ NodoAVL* inserir(NodoAVL* nodo, Item item) {
     return nodo;
 }
 
-// Função para buscar um item pelo ID na árvore AVL
+
 NodoAVL* buscar(NodoAVL* nodo, int id) {
     if (nodo == NULL || nodo->item.id == id)
         return nodo;
@@ -109,7 +109,7 @@ NodoAVL* buscar(NodoAVL* nodo, int id) {
     return buscar(nodo->direita, id);
 }
 
-// Função para imprimir os itens da árvore AVL (em ordem crescente de ID)
+
 void imprimirEmOrdem(NodoAVL* nodo) {
     if (nodo != NULL) {
         imprimirEmOrdem(nodo->esquerda);
@@ -118,10 +118,60 @@ void imprimirEmOrdem(NodoAVL* nodo) {
     }
 }
 
-// Função para encontrar o menor valor de um nó (subárvore direita)
+
 NodoAVL* menorValorNodo(NodoAVL* nodo) {
     NodoAVL* atual = nodo;
     while (atual->esquerda != NULL)
         atual = atual->esquerda;
     return atual;
+}
+
+NodoAVL* remover(NodoAVL* raiz, int id) {
+    if (raiz == NULL)
+        return raiz;
+
+    if (id < raiz->item.id)
+        raiz->esquerda = remover(raiz->esquerda, id);
+    else if (id > raiz->item.id)
+        raiz->direita = remover(raiz->direita, id);
+    else {
+        if ((raiz->esquerda == NULL) || (raiz->direita == NULL)) {
+            NodoAVL* temp = raiz->esquerda ? raiz->esquerda : raiz->direita;
+            if (temp == NULL) {
+                temp = raiz;
+                raiz = NULL;
+            } else
+                *raiz = *temp;
+            free(temp);
+        } else {
+            NodoAVL* temp = menorValorNodo(raiz->direita);
+            raiz->item = temp->item;
+            raiz->direita = remover(raiz->direita, temp->item.id);
+        }
+    }
+
+    if (raiz == NULL)
+        return raiz;
+
+    raiz->altura = 1 + max(altura(raiz->esquerda), altura(raiz->direita));
+
+    int balanceamento = obterBalanceamento(raiz);
+
+    if (balanceamento > 1 && obterBalanceamento(raiz->esquerda) >= 0)
+        return rotacaoDireita(raiz);
+
+    if (balanceamento > 1 && obterBalanceamento(raiz->esquerda) < 0) {
+        raiz->esquerda = rotacaoEsquerda(raiz->esquerda);
+        return rotacaoDireita(raiz);
+    }
+
+    if (balanceamento < -1 && obterBalanceamento(raiz->direita) <= 0)
+        return rotacaoEsquerda(raiz);
+
+    if (balanceamento < -1 && obterBalanceamento(raiz->direita) > 0) {
+        raiz->direita = rotacaoDireita(raiz->direita);
+        return rotacaoEsquerda(raiz);
+    }
+
+    return raiz;
 }
