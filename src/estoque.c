@@ -267,3 +267,60 @@ void removerItem(NodoAVL** raiz) {
     *raiz = remover(*raiz, id);
     printf("Item removido com sucesso!\n");
 }
+
+// Menu para gestão de estoque
+void menuEstoque(NodoAVL** raiz) {
+    int opcao;
+
+    do {
+        printf("\n--- Menu de Estoque ---\n");
+        printf("1. Adicionar item ao estoque\n");
+        printf("2. Buscar item no estoque\n");
+        printf("3. Listar todos os itens do estoque\n");
+        printf("4. Atualizar preço de um item\n");
+        printf("5. Remover item do estoque\n");
+        printf("6. Carregar itens de um arquivo\n");
+        printf("7. Salvar itens no arquivo\n");
+        printf("8. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                adicionarItem(raiz);
+                break;
+            case 2:
+                buscarItem(*raiz);
+                break;
+            case 3:
+                listarItens(*raiz);
+                break;
+            case 4:
+                atualizarPreco(*raiz);
+                break;
+            case 5:
+                removerItem(raiz);
+                break;
+            case 6:
+                carregarItensArquivo("estoque.txt", raiz);
+                break;
+            case 7: {
+                FILE* arquivo = fopen("estoque.txt", "w");
+                if (arquivo != NULL) {
+                    salvarItensArquivo(arquivo, *raiz);
+                    fclose(arquivo);
+                    printf("Itens salvos com sucesso no arquivo!\n");
+                } else {
+                    printf("Erro ao abrir o arquivo para salvar!\n");
+                }
+                break;
+            }
+            case 8:
+                printf("Saindo do menu de estoque.\n");
+                break;
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+                break;
+        }
+    } while (opcao != 8);
+}

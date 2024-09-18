@@ -29,3 +29,4 @@ void buscarItem(NodoAVL* raiz);
 void listarItens(NodoAVL* raiz);
 void atualizarPreco(NodoAVL* raiz);
 void removerItem(NodoAVL** raiz);
+void menuEstoque(NodoAVL** raiz);
