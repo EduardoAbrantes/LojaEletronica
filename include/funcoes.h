@@ -1,3 +1,7 @@
+#ifndef FUNCOES_H
+#define FUNCOES_H
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -25,3 +29,6 @@ void menuSuporte();
  * Esta função é utilizada para gerar o Menu de Clientes.
  */
 void menuGestaoClientes();
+
+
+#endif // FUNCOES_H

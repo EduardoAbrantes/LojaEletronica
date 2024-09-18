@@ -1,4 +1,5 @@
 #include "../include/estoque.h"
+#include "../include/funcoes.h"
 
 int main(){
 
@@ -22,19 +23,19 @@ int main(){
 
         switch (opcao) {
             case 1:
-                //limpar_tela();
+                limpar_tela();
                 menuEstoque(&raiz);
                 break;
             case 2:
-                //limpar_tela();
-                //menuSuporte();
+                limpar_tela();
+                menuSuporte();
                 break;
             case 3:
-                //limpar_tela();
-                //menuGestaoClientes();
+                limpar_tela();
+                menuGestaoClientes();
                 break;
             case 4:
-                //limpar_tela();
+                limpar_tela();
                 printf("Saindo... Obrigado por usar o TechFix!\n");
                 break;
             default:

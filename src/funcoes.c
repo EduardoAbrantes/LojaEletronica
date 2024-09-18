@@ -1,4 +1,4 @@
-#include "../include/funções.h"
+#include "../include/funcoes.h"
 
 void limpar_tela() {
     printf("Pressione ENTER para limpar a tela...");
