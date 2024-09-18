@@ -175,3 +175,95 @@ NodoAVL* remover(NodoAVL* raiz, int id) {
 
     return raiz;
 }
+
+void carregarItensArquivo(const char* nomeArquivo, NodoAVL** raiz) {
+    FILE* arquivo = fopen(nomeArquivo, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return;
+    }
+
+    int id;
+    char nome[100];
+    float preco;
+
+    while (fscanf(arquivo, "%d %s %f", &id, nome, &preco) != EOF) {
+        Item item;
+        item.id = id;
+        strcpy(item.nome, nome);
+        item.preco = preco;
+        *raiz = inserir(*raiz, item);
+    }
+
+    fclose(arquivo);
+    printf("Itens carregados com sucesso do arquivo.\n");
+}
+
+void salvarItensArquivo(FILE* arquivo, NodoAVL* nodo) {
+    if (nodo != NULL) {
+        salvarItensArquivo(arquivo, nodo->esquerda);
+        fprintf(arquivo, "%d %s %.2f\n", nodo->item.id, nodo->item.nome, nodo->item.preco);
+        salvarItensArquivo(arquivo, nodo->direita);
+    }
+}
+
+void adicionarItem(NodoAVL** raiz) {
+    Item item;
+
+    printf("Digite o ID do item: ");
+    scanf("%d", &item.id);
+    printf("Digite o nome do item: ");
+    scanf("%s", item.nome);
+    printf("Digite o preço do item: ");
+    scanf("%f", &item.preco);
+
+    *raiz = inserir(*raiz, item);
+    printf("Item adicionado com sucesso!\n");
+}
+
+void buscarItem(NodoAVL* raiz) {
+    int id;
+    printf("Digite o ID do item a ser buscado: ");
+    scanf("%d", &id);
+
+    NodoAVL* resultado = buscar(raiz, id);
+    if (resultado != NULL) {
+        printf("Item encontrado: ID: %d, Nome: %s, Preço: %.2f\n", resultado->item.id, resultado->item.nome, resultado->item.preco);
+    } else {
+        printf("Item não encontrado!\n");
+    }
+}
+
+void listarItens(NodoAVL* raiz) {
+    if (raiz == NULL) {
+        printf("Estoque vazio!\n");
+    } else {
+        imprimirEmOrdem(raiz);
+    }
+}
+
+void atualizarPreco(NodoAVL* raiz) {
+    int id;
+    printf("Digite o ID do item para atualizar o preço: ");
+    scanf("%d", &id);
+
+    NodoAVL* nodo = buscar(raiz, id);
+    if (nodo != NULL) {
+        float novoPreco;
+        printf("Digite o novo preço: ");
+        scanf("%f", &novoPreco);
+        nodo->item.preco = novoPreco;
+        printf("Preço atualizado com sucesso!\n");
+    } else {
+        printf("Item não encontrado!\n");
+    }
+}
+
+void removerItem(NodoAVL** raiz) {
+    int id;
+    printf("Digite o ID do item a ser removido: ");
+    scanf("%d", &id);
+
+    *raiz = remover(*raiz, id);
+    printf("Item removido com sucesso!\n");
+}
