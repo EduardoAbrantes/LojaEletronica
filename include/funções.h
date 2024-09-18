@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <math.h>
 #include <ctype.h>
 
@@ -17,3 +18,10 @@ void limpar_tela();
  * Esta função é utilizada para gerar o Menu de Suporte.
  */
 void menuSuporte();
+
+/**
+ * @brief gera o Menu de CLientes.
+ * 
+ * Esta função é utilizada para gerar o Menu de Clientes.
+ */
+void menuGestaoClientes();
