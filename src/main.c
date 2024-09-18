@@ -1,9 +1,11 @@
-#include "cliente.c"
+#include "../include/estoque.h"
 
 int main(){
 
     NodoAVL* raiz = NULL;
     int opcao;
+
+    carregarItensArquivo("estoque.txt", &raiz);
     
     do {
         printf("*************************************************\n");
@@ -20,19 +22,19 @@ int main(){
 
         switch (opcao) {
             case 1:
-                limpar_tela();
+                //limpar_tela();
                 menuEstoque(&raiz);
                 break;
             case 2:
-                limpar_tela();
-                menuSuporte();
+                //limpar_tela();
+                //menuSuporte();
                 break;
             case 3:
-                limpar_tela();
-                menuGestaoClientes();
+                //limpar_tela();
+                //menuGestaoClientes();
                 break;
             case 4:
-                limpar_tela();
+                //limpar_tela();
                 printf("Saindo... Obrigado por usar o TechFix!\n");
                 break;
             default:
@@ -40,6 +42,11 @@ int main(){
         }
     } while (opcao != 4);
 
+    FILE* arquivo = fopen("estoque.txt", "w");
+    if (arquivo != NULL) {
+        salvarItensArquivo(arquivo, raiz);
+        fclose(arquivo);
+    }
 
     return 0;
 
