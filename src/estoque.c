@@ -98,3 +98,30 @@ NodoAVL* inserir(NodoAVL* nodo, Item item) {
     return nodo;
 }
 
+// Função para buscar um item pelo ID na árvore AVL
+NodoAVL* buscar(NodoAVL* nodo, int id) {
+    if (nodo == NULL || nodo->item.id == id)
+        return nodo;
+
+    if (id < nodo->item.id)
+        return buscar(nodo->esquerda, id);
+
+    return buscar(nodo->direita, id);
+}
+
+// Função para imprimir os itens da árvore AVL (em ordem crescente de ID)
+void imprimirEmOrdem(NodoAVL* nodo) {
+    if (nodo != NULL) {
+        imprimirEmOrdem(nodo->esquerda);
+        printf("ID: %d, Nome: %s, Preço: %.2f\n", nodo->item.id, nodo->item.nome, nodo->item.preco);
+        imprimirEmOrdem(nodo->direita);
+    }
+}
+
+// Função para encontrar o menor valor de um nó (subárvore direita)
+NodoAVL* menorValorNodo(NodoAVL* nodo) {
+    NodoAVL* atual = nodo;
+    while (atual->esquerda != NULL)
+        atual = atual->esquerda;
+    return atual;
+}
