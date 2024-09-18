@@ -10,90 +10,6 @@ void limpar_tela() {
     #endif
 }
 
-void MenuPrincipal() {
-    int opcao;
-    do {
-        printf("*************************************************\n");
-        printf("*              Bem-vindo à TechFix              *\n");
-        printf("*               Soluções em Eletrônicos          *\n");
-        printf("*************************************************\n");
-        printf("1. Gestão de Estoque\n");
-        printf("2. Suporte Técnico e Assistência\n");
-        printf("3. Gestão de clientes\n");
-        printf("4. Sair\n");
-        printf("Por favor, selecione uma opção (1-4): ");
-        scanf("%d", &opcao);
-        getchar();
-
-        switch (opcao) {
-            case 1:
-                limpar_tela();
-                menuEstoque();
-                break;
-            case 2:
-                limpar_tela();
-                menuSuporte();
-                break;
-            case 3:
-                limpar_tela();
-                //menuGestaoClientes();
-                break;
-            case 4:
-                limpar_tela();
-                printf("Saindo... Obrigado por usar o TechFix!\n");
-                break;
-            default:
-                printf("Opção inválida! Tente novamente.\n");
-        }
-    } while (opcao != 4);
-}
-
-void menuEstoque() {
-    int opcao;
-    do {
-        printf("*************************************************\n");
-        printf("*               Gestão de Estoque               *\n");
-        printf("*************************************************\n");
-        printf("1. Visualizar Estoque\n");
-        printf("2. Adicionar Novo Produto\n");
-        printf("3. Atualizar Quantidade de Produto\n");
-        printf("4. Remover Produto do Estoque\n");
-        printf("5. Registrar Compra de Produto\n");
-        printf("6. Buscar Produto por Nome\n");
-        printf("7. Voltar ao Menu Principal\n");
-        printf("Por favor, selecione uma opção (1-7): ");
-        scanf("%d", &opcao);
-        getchar(); // Limpar o buffer do teclado após scanf
-
-        switch (opcao) {
-            case 1:
-                // Função para visualizar o estoque
-                break;
-            case 2:
-                // Função para adicionar novo produto
-                break;
-            case 3:
-                // Função para atualizar quantidade de produto
-                break;
-            case 4:
-                // Função para remover produto do estoque
-                break;
-            case 5:
-                // Função para registrar compra de produto
-                break;
-            case 6:
-                // Função para buscar produto por nome
-                break;
-            case 7:
-                printf("Voltando ao Menu Principal...\n");
-                limpar_tela();
-                break;
-            default:
-                printf("Opção inválida! Tente novamente.\n");
-        }
-    } while (opcao != 7);
-}
-
 void menuSuporte() {
     int opcao;
     do {
@@ -121,6 +37,43 @@ void menuSuporte() {
                 break;
             case 4:
                 printf("Função de visualizar histórico de solicitações por cliente não implementada.\n");
+                break;
+            case 5:
+                printf("Voltando ao Menu Principal...\n");
+                limpar_tela();
+                break;
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+        }
+    } while (opcao != 5);
+}
+void menuGestaoClientes() {
+    int opcao;
+    do {
+        printf("*************************************************\n");
+        printf("*             Gestão de Clientes                *\n");
+        printf("*************************************************\n");
+        printf("1. Adicionar Cliente\n");
+        printf("2. Remover cliente\n");
+        printf("3. Atualizar um cliente\n");
+        printf("4. buscar um cliente\n");
+        printf("5. Voltar ao Menu Principal\n");
+        printf("Por favor, selecione uma opção (1-5): ");
+        scanf("%d", &opcao);
+        getchar();
+
+        switch (opcao) {
+            case 1:
+                printf("Função de adicionar cliente.\n");
+                break;
+            case 2:
+                printf("Função de remover cliente.\n");
+                break;
+            case 3:
+                printf("Função atualizar um cliente.\n");
+                break;
+            case 4:
+                printf("Função de buscar um cliente.\n");
                 break;
             case 5:
                 printf("Voltando ao Menu Principal...\n");

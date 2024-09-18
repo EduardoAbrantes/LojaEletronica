@@ -12,20 +12,6 @@
 void limpar_tela();
 
 /**
- * @brief gera o Menu Principal.
- * 
- * Esta função é utilizada para gerar o Menu Principal.
- */
-void MenuPrincipal();
-
-/**
- * @brief gera o Menu de Estoque.
- * 
- * Esta função é utilizada para gerar o Menu de Estoque.
- */
-void menuEstoque();
-
-/**
  * @brief gera o Menu de Suporte.
  * 
  * Esta função é utilizada para gerar o Menu de Suporte.
