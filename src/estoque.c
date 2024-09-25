@@ -209,17 +209,33 @@ void salvarItensArquivo(FILE* arquivo, NodoAVL* nodo) {
 
 void adicionarItem(NodoAVL** raiz) {
     Item item;
+    char buffer[100];
 
     printf("Digite o ID do item: ");
     scanf("%d", &item.id);
+
+    NodoAVL* nodoExistente = buscar(*raiz, item.id);
+    if (nodoExistente != NULL) {
+        printf("Erro: Já existe um item com esse ID!\n");
+        return;
+    }
+
+    getchar();
+
     printf("Digite o nome do item: ");
-    scanf("%s", item.nome);
+    fgets(buffer, sizeof(buffer), stdin);
+    
+    buffer[strcspn(buffer, "\n")] = 0;
+
+    strcpy(item.nome, buffer);
+
     printf("Digite o preço do item: ");
     scanf("%f", &item.preco);
 
     *raiz = inserir(*raiz, item);
     printf("Item adicionado com sucesso!\n");
 }
+
 
 void buscarItem(NodoAVL* raiz) {
     int id;
