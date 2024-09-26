@@ -19,3 +19,19 @@ O Projeto Loja de Eletrônicos é um sistema desenvolvido para gerenciar diverso
 
 ## **Problemática**
 
+O sistema da loja de eletronicos em questão necessita de 3 funcionalidades principais, cada uma usando uma estrutura de dados para o seu funcionamento e um menu para cada uma delas. Para esse projeto as funcionalidades escolhidas foram gerenciamento de estoque, gerenciamento de clientes e suporte tecnico, com as estruturas arvore AVL, Tabela Hash e Heap respectivamente.
+
+### Funcionalidades Principais:
+
+- Gerenciamento de Estoque:
+  - Adicionar, remover, buscar e atualizar itens de tecnologia.
+  - Estrutura de dados: Árvore AVL para garantir eficiência.
+  
+- Gerenciamento de Clientes:
+  - Adicionar, remover, buscar e atualizar perfis de clientes do sistema.
+  - Estrutura de dados: Tabela Hash para permitir acesso rápido e eficiente de dados.
+
+- Suporte Técnico:
+  - Armazenamento de pedidos de suporte.
+  - Estrutura de dados: Heap para ter controle de prioridade sobre os pedidos de suporte.
+
