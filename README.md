@@ -35,3 +35,11 @@ O sistema da loja de eletronicos em questão necessita de 3 funcionalidades prin
   - Armazenamento de pedidos de suporte.
   - Estrutura de dados: Heap para ter controle de prioridade sobre os pedidos de suporte.
 
+
+### 2. Compilação e Execução
+```bash
+Compilação:
+gcc -g -o gestao_estoque src/main.c src/estoque.c src/funcoes.c -Iinclude
+
+Execução:
+./gestao_estoque
