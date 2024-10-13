@@ -1,5 +1,5 @@
-#include "../include/estoque.h"
-#include "../include/funcoes.h"
+#include "estoque.c"
+#include "funcoes.c"
 
 int main(){
 

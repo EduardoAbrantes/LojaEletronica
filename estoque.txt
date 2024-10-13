@@ -1,5 +1,0 @@
-1 moden 600.99
-2 teclado 200.00
-3 caixa de som 50.00
-75 notebook 2199.99
-84 mouse 59.99

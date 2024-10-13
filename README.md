@@ -41,5 +41,10 @@ O sistema da loja de eletronicos em questão necessita de 3 funcionalidades prin
 Compilação:
 gcc -g -o gestao_estoque src/main.c src/estoque.c src/funcoes.c -Iinclude
 
+use isso apenas quando chamar os headers no main se chamar os .c use o player normal
+
+
 Execução:
 ./gestao_estoque
+
+
