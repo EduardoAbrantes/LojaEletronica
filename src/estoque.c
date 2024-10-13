@@ -3,7 +3,8 @@
 struct Item {
     int id;             
     char nome[100];     
-    float preco;        
+    float preco;   
+    int quantidade;
 };
 
 struct NodoAVL {
@@ -100,13 +101,14 @@ NodoAVL* inserir(NodoAVL* nodo, Item item) {
 
 
 NodoAVL* buscar(NodoAVL* nodo, int id) {
-    if (nodo == NULL || nodo->item.id == id)
-        return nodo;
-
-    if (id < nodo->item.id)
-        return buscar(nodo->esquerda, id);
-
-    return buscar(nodo->direita, id);
+    if (nodo == NULL || nodo->item.id == id) {
+        return nodo;  // Retorna o nodo se encontrado ou NULL se não
+    }
+    if (id < nodo->item.id) {
+        return buscar(nodo->esquerda, id);  // Busca na subárvore esquerda
+    } else {
+        return buscar(nodo->direita, id);  // Busca na subárvore direita
+    }
 }
 
 
@@ -179,60 +181,57 @@ NodoAVL* remover(NodoAVL* raiz, int id) {
 void carregarItensArquivo(const char* nomeArquivo, NodoAVL** raiz) {
     FILE* arquivo = fopen(nomeArquivo, "r");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
+        printf("Arquivo não encontrado. Iniciando com estoque vazio.\n");
         return;
     }
 
-    int id;
-    char nome[100];
-    float preco;
-
-    while (fscanf(arquivo, "%d %s %f", &id, nome, &preco) != EOF) {
-        Item item;
-        item.id = id;
-        strcpy(item.nome, nome);
-        item.preco = preco;
+    Item item;
+    while (fscanf(arquivo, "%d;%[^;];%f;%d\n", 
+                  &item.id, item.nome, &item.preco, &item.quantidade) == 4) {
         *raiz = inserir(*raiz, item);
     }
 
     fclose(arquivo);
-    printf("Itens carregados com sucesso do arquivo.\n");
 }
+
 
 void salvarItensArquivo(FILE* arquivo, NodoAVL* nodo) {
     if (nodo != NULL) {
         salvarItensArquivo(arquivo, nodo->esquerda);
-        fprintf(arquivo, "%d %s %.2f\n", nodo->item.id, nodo->item.nome, nodo->item.preco);
+        fprintf(arquivo, "%d;%s;%.2f;%d\n", 
+                nodo->item.id, nodo->item.nome, nodo->item.preco, nodo->item.quantidade);
         salvarItensArquivo(arquivo, nodo->direita);
     }
 }
 
+
 void adicionarItem(NodoAVL** raiz) {
-    Item item;
-    char buffer[100];
+    Item novoItem;
 
-    printf("Digite o ID do item: ");
-    scanf("%d", &item.id);
+    while (1) {  // Loop até que o usuário digite um ID válido
+        printf("ID do novo item: ");
+        scanf("%d", &novoItem.id);
+        getchar();
 
-    NodoAVL* nodoExistente = buscar(*raiz, item.id);
-    if (nodoExistente != NULL) {
-        printf("Erro: Já existe um item com esse ID!\n");
-        return;
+        // Verifica se o ID já existe na árvore
+        if (buscar(*raiz, novoItem.id) != NULL) {
+            printf("Erro: O ID %d já existe! Digite outro.\n", novoItem.id);
+        } else {
+            break;  // Sai do loop se o ID for único
+        }
     }
 
-    getchar();
+    printf("Nome do item: ");
+    fgets(novoItem.nome, 50, stdin);
+    novoItem.nome[strcspn(novoItem.nome, "\n")] = 0;  // Remove o '\n'
 
-    printf("Digite o nome do item: ");
-    fgets(buffer, sizeof(buffer), stdin);
-    
-    buffer[strcspn(buffer, "\n")] = 0;
+    printf("Preço do item: ");
+    scanf("%f", &novoItem.preco);
 
-    strcpy(item.nome, buffer);
+    printf("Quantidade do item: ");
+    scanf("%d", &novoItem.quantidade);
 
-    printf("Digite o preço do item: ");
-    scanf("%f", &item.preco);
-
-    *raiz = inserir(*raiz, item);
+    *raiz = inserir(*raiz, novoItem);
     printf("Item adicionado com sucesso!\n");
 }
 
@@ -251,10 +250,11 @@ void buscarItem(NodoAVL* raiz) {
 }
 
 void listarItens(NodoAVL* raiz) {
-    if (raiz == NULL) {
-        printf("Estoque vazio!\n");
-    } else {
-        imprimirEmOrdem(raiz);
+    if (raiz != NULL) {
+        listarItens(raiz->esquerda);
+        printf("ID: %d | Nome: %s | Preço: %.2f | Quantidade: %d\n", 
+               raiz->item.id, raiz->item.nome, raiz->item.preco, raiz->item.quantidade);
+        listarItens(raiz->direita);
     }
 }
 
