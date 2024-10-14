@@ -1,5 +1,6 @@
 #include "estoque.c"
 #include "funcoes.c"
+#include "cliente.c"
 
 int main(){
 
@@ -32,7 +33,7 @@ int main(){
                 break;
             case 3:
                 limpar_tela();
-                menuGestaoClientes();
+                menuClientes();
                 break;
             case 4:
                 limpar_tela();
