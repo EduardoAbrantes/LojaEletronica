@@ -243,7 +243,7 @@ void buscarItem(NodoAVL* raiz) {
 
     NodoAVL* resultado = buscar(raiz, id);
     if (resultado != NULL) {
-        printf("Item encontrado: ID: %d, Nome: %s, Preço: %.2f\n", resultado->item.id, resultado->item.nome, resultado->item.preco);
+        printf("Item encontrado: ID: %d, Nome: %s, Preço: %.2f, quantidade: %d\n", resultado->item.id, resultado->item.nome, resultado->item.preco, resultado->item.quantidade);
     } else {
         printf("Item não encontrado!\n");
     }

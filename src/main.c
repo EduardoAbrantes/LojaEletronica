@@ -1,13 +1,14 @@
-#include "estoque.c"
 #include "funcoes.c"
-#include "cliente.c"
+#include "suporte.c"
 
 int main(){
 
     NodoAVL* raiz = NULL;
     int opcao;
-
+    Heap heap;
+    
     inicializarTabela();
+    inicializarHeap(&heap);
 
     carregarClientesArquivo();
     carregarItensArquivo("estoque.txt", &raiz);
@@ -34,7 +35,7 @@ int main(){
                 break;
             case 2:
                 limpar_tela();
-                menuSuporte();
+                menuSuporte(&heap);
                 break;
             case 3:
                 limpar_tela();

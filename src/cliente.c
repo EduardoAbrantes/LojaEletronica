@@ -55,6 +55,42 @@ void inserirCliente(const char* nome, const char* email, int idade, int carteira
     printf("Cliente %s inserido com sucesso!\n", nome);
 }
 
+Cliente* buscarClientePedido(const char* nome) {
+    char nomeBusca[50];
+    strcpy(nomeBusca, nome);
+
+    // Converte o nome de busca para maiúsculas
+    for (int i = 0; nomeBusca[i]; i++) {
+        nomeBusca[i] = toupper((unsigned char)nomeBusca[i]);
+    }
+
+    int posicao = funcaoHash(nomeBusca);
+    int original = posicao;
+    int i = 0;
+
+    while (tabelaHash[posicao].ativo) {
+        char nomeTabela[50];
+        strcpy(nomeTabela, tabelaHash[posicao].nome);
+
+        // Converte o nome armazenado para maiúsculas para comparar
+        for (int j = 0; nomeTabela[j]; j++) {
+            nomeTabela[j] = toupper((unsigned char)nomeTabela[j]);
+        }
+
+        if (strcmp(nomeTabela, nomeBusca) == 0) {
+            return &tabelaHash[posicao];  // Retorna o cliente encontrado
+        }
+
+        posicao = (original + ++i) % TAMANHO_TABELA;
+
+        if (posicao == original) {
+            break;  // Percorreu toda a tabela
+        }
+    }
+
+    return NULL;  // Cliente não encontrado
+}
+
 void buscarCliente(const char* nome) {
     int posicao = funcaoHash(nome);
     int original = posicao;

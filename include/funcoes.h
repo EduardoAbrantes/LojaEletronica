@@ -16,19 +16,6 @@
  */
 void limpar_tela();
 
-/**
- * @brief gera o Menu de Suporte.
- * 
- * Esta função é utilizada para gerar o Menu de Suporte.
- */
-void menuSuporte();
-
-/**
- * @brief gera o Menu de CLientes.
- * 
- * Esta função é utilizada para gerar o Menu de Clientes.
- */
-void menuGestaoClientes();
 
 
 #endif // FUNCOES_H
