@@ -3,11 +3,12 @@
 #define TAMANHO_TABELA 100  // Tamanho fixo da tabela hash
 
 
-typedef struct cliente {
+struct cliente {
     char nome[50];
     char email[50];
     int idade;
-    int ativo;  // Marca se o espaço está ocupado: 1 - Ativo, 0 - Vazio
+    int carteira;  // Dinheiro que o cliente tem
+    int ativo;     // Marca se o espaço está ocupado: 1 - Ativo, 0 - Vazio
 };
 
 Cliente tabelaHash[TAMANHO_TABELA];
@@ -26,17 +27,17 @@ int funcaoHash(const char* nome) {
     return hash % TAMANHO_TABELA;
 }
 
-void inserirCliente(const char* nome, const char* email, int idade) {
+void inserirCliente(const char* nome, const char* email, int idade, int carteira) {
     int posicao = funcaoHash(nome);
     int original = posicao;
-    int tentativa = 0;
+    int i = 0;
 
     while (tabelaHash[posicao].ativo == 1) {
         if (strcmp(tabelaHash[posicao].nome, nome) == 0) {
             printf("Erro: Cliente %s já existe. Tente novamente com outro nome.\n", nome);
             return;
         }
-        posicao = (original + ++tentativa) % TAMANHO_TABELA;
+        posicao = (original + ++i) % TAMANHO_TABELA;
 
         if (posicao == original) {  // Tabela cheia
             printf("Erro: A tabela hash está cheia.\n");
@@ -44,9 +45,11 @@ void inserirCliente(const char* nome, const char* email, int idade) {
         }
     }
 
+    // Inserção do cliente na posição encontrada.
     strcpy(tabelaHash[posicao].nome, nome);
     strcpy(tabelaHash[posicao].email, email);
     tabelaHash[posicao].idade = idade;
+    tabelaHash[posicao].carteira = carteira;
     tabelaHash[posicao].ativo = 1;
 
     printf("Cliente %s inserido com sucesso!\n", nome);
@@ -55,21 +58,21 @@ void inserirCliente(const char* nome, const char* email, int idade) {
 void buscarCliente(const char* nome) {
     int posicao = funcaoHash(nome);
     int original = posicao;
-    int tentativa = 0;
+    int i = 0;
 
     while (tabelaHash[posicao].ativo) {
-        // Convertendo o nome na tabela para maiúsculas para comparação
         if (strcasecmp(tabelaHash[posicao].nome, nome) == 0) {
-            printf("Cliente encontrado: Nome: %s, Email: %s, Idade: %d\n",
+            printf("Cliente encontrado: Nome: %s, Email: %s, Idade: %d, Carteira: %d\n",
                    tabelaHash[posicao].nome,
                    tabelaHash[posicao].email,
-                   tabelaHash[posicao].idade);
+                   tabelaHash[posicao].idade,
+                   tabelaHash[posicao].carteira);
             return;
         }
-        posicao = (original + ++tentativa) % TAMANHO_TABELA;
+        posicao = (original + ++i) % TAMANHO_TABELA;
 
         if (posicao == original) {
-            break;  // Retorna ao ponto original se todas as posições foram verificadas
+            break;
         }
     }
     printf("Cliente %s não encontrado.\n", nome);
@@ -84,10 +87,11 @@ void salvarClientesArquivo() {
 
     for (int i = 0; i < TAMANHO_TABELA; i++) {
         if (tabelaHash[i].ativo) {
-            fprintf(arquivo, "Nome: %s, Email: %s, Idade: %d\n",
+            fprintf(arquivo, "Nome: %s, Email: %s, Idade: %d, Carteira: %d\n",
                     tabelaHash[i].nome,
                     tabelaHash[i].email,
-                    tabelaHash[i].idade);
+                    tabelaHash[i].idade,
+                    tabelaHash[i].carteira);
         }
     }
 
@@ -95,21 +99,63 @@ void salvarClientesArquivo() {
     printf("Clientes salvos em clientes.txt com sucesso!\n");
 }
 
+void alterarCarteira(const char* nome, int novaCarteira) {
+    int posicao = funcaoHash(nome);
+    int original = posicao;
+    int i = 0;
+
+    while (tabelaHash[posicao].ativo) {
+        if (strcasecmp(tabelaHash[posicao].nome, nome) == 0) {
+            tabelaHash[posicao].carteira = novaCarteira;
+            printf("Carteira do cliente %s alterada com sucesso! Nova carteira: %d\n",
+                   tabelaHash[posicao].nome, novaCarteira);
+            return;
+        }
+        posicao = (original + ++i) % TAMANHO_TABELA;
+
+        if (posicao == original) {
+            break;
+        }
+    }
+    printf("Cliente %s não encontrado.\n", nome);
+}
+
+// Função para carregar clientes do arquivo clientes.txt
+void carregarClientesArquivo() {
+    FILE* arquivo = fopen("clientes.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para leitura. Pode ser que não existam clientes registrados.\n");
+        return;
+    }
+
+    char linha[200];
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        char nome[50], email[50];
+        int idade, carteira;
+        sscanf(linha, "Nome: %49[^,], Email: %49[^,], Idade: %d, Carteira: %d", nome, email, &idade, &carteira);
+        inserirCliente(nome, email, idade, carteira);
+    }
+
+    fclose(arquivo);
+}
+
+// Função de menu para o gerenciamento de clientes.
 void menuClientes() {
     int opcao;
     do {
         printf("\n--- Menu de Clientes ---\n");
         printf("1. Inserir Cliente\n");
         printf("2. Buscar Cliente\n");
-        printf("3. Salvar e Sair\n");
+        printf("3. Alterar Carteira do Cliente\n");
+        printf("4. Salvar e Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
+        getchar();  // Limpa o buffer
 
         if (opcao == 1) {
             char nome[50], email[50];
-            int idade;
+            int idade, carteira;
             printf("Digite o nome do cliente: ");
-            getchar();  // Limpa o buffer
             fgets(nome, 50, stdin);
             nome[strcspn(nome, "\n")] = '\0';  // Remove o \n
             printf("Digite o email do cliente: ");
@@ -117,19 +163,29 @@ void menuClientes() {
             email[strcspn(email, "\n")] = '\0';  // Remove o \n
             printf("Digite a idade do cliente: ");
             scanf("%d", &idade);
-            inserirCliente(nome, email, idade);
+            printf("Digite a carteira do cliente: ");
+            scanf("%d", &carteira);
+            inserirCliente(nome, email, idade, carteira);
         } else if (opcao == 2) {
             char nome[50];
             printf("Digite o nome do cliente a ser buscado: ");
-            getchar();  // Limpa o buffer
             fgets(nome, 50, stdin);
             nome[strcspn(nome, "\n")] = '\0';  // Remove o \n
             buscarCliente(nome);
         } else if (opcao == 3) {
+            char nome[50];
+            int novaCarteira;
+            printf("Digite o nome do cliente cuja carteira deseja alterar: ");
+            fgets(nome, 50, stdin);
+            nome[strcspn(nome, "\n")] = '\0';  // Remove o \n
+            printf("Digite a nova quantidade na carteira: ");
+            scanf("%d", &novaCarteira);
+            alterarCarteira(nome, novaCarteira);
+        } else if (opcao == 4) {
             salvarClientesArquivo();
             printf("Saindo...\n");
         } else {
             printf("Opção inválida. Tente novamente.\n");
         }
-    } while (opcao != 3);
+    } while (opcao != 4);
 }

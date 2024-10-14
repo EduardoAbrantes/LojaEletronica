@@ -7,8 +7,13 @@ int main(){
     NodoAVL* raiz = NULL;
     int opcao;
 
+    inicializarTabela();
+
+    carregarClientesArquivo();
     carregarItensArquivo("estoque.txt", &raiz);
+    limpar_tela();
     
+
     do {
         printf("*************************************************\n");
         printf("*              Bem-vindo à TechFix              *\n");
