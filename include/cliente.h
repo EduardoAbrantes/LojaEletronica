@@ -11,7 +11,7 @@
 typedef struct cliente Cliente;
 
 void inicializarTabela();
-int funcaoHash(const char* nome, int tentativa);
+int funcaoHash(const char* nome);
 void inserirCliente(const char* nome, const char* email, int idade);
 void buscarCliente(const char* nome);
 void salvarClientesArquivo();

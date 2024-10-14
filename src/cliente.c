@@ -18,33 +18,27 @@ void inicializarTabela() {
     }
 }
 
-int ToInt(const char* nome) {
-    int valor = 0;
-    for (int i = 0; nome[i] != '\0'; i++) {
-        valor += nome[i];
+int funcaoHash(const char* nome) {
+    int hash = 0;
+    for (int i = 0; nome[i]; i++) {
+        hash += toupper((unsigned char)nome[i]);
     }
-    return valor;
-}
-
-int funcaoHash(const char* nome, int tentativa) {
-    int chaveNumerica = ToInt(nome);
-    return (chaveNumerica + tentativa) % TAMANHO_TABELA;
+    return hash % TAMANHO_TABELA;
 }
 
 void inserirCliente(const char* nome, const char* email, int idade) {
-    int tentativa = 0;
-    int posicao = funcaoHash(nome, tentativa);
+    int posicao = funcaoHash(nome);
     int original = posicao;
+    int tentativa = 0;
 
     while (tabelaHash[posicao].ativo == 1) {
         if (strcmp(tabelaHash[posicao].nome, nome) == 0) {
-            printf("Erro: Cliente com nome '%s' já existe. Tente outro nome.\n", nome);
+            printf("Erro: Cliente %s já existe. Tente novamente com outro nome.\n", nome);
             return;
         }
-        tentativa++;
-        posicao = funcaoHash(nome, tentativa);
+        posicao = (original + ++tentativa) % TAMANHO_TABELA;
 
-        if (posicao == original) {
+        if (posicao == original) {  // Tabela cheia
             printf("Erro: A tabela hash está cheia.\n");
             return;
         }
@@ -59,26 +53,26 @@ void inserirCliente(const char* nome, const char* email, int idade) {
 }
 
 void buscarCliente(const char* nome) {
-    int tentativa = 0;
-    int posicao = funcaoHash(nome, tentativa);
+    int posicao = funcaoHash(nome);
     int original = posicao;
+    int tentativa = 0;
 
     while (tabelaHash[posicao].ativo) {
-        if (strcmp(tabelaHash[posicao].nome, nome) == 0) {
+        // Convertendo o nome na tabela para maiúsculas para comparação
+        if (strcasecmp(tabelaHash[posicao].nome, nome) == 0) {
             printf("Cliente encontrado: Nome: %s, Email: %s, Idade: %d\n",
                    tabelaHash[posicao].nome,
                    tabelaHash[posicao].email,
                    tabelaHash[posicao].idade);
             return;
         }
-        tentativa++;
-        posicao = funcaoHash(nome, tentativa);
+        posicao = (original + ++tentativa) % TAMANHO_TABELA;
 
         if (posicao == original) {
-            break;
+            break;  // Retorna ao ponto original se todas as posições foram verificadas
         }
     }
-    printf("Cliente com nome '%s' não encontrado.\n", nome);
+    printf("Cliente %s não encontrado.\n", nome);
 }
 
 void salvarClientesArquivo() {
@@ -110,27 +104,26 @@ void menuClientes() {
         printf("3. Salvar e Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
-        getchar();
 
         if (opcao == 1) {
             char nome[50], email[50];
             int idade;
             printf("Digite o nome do cliente: ");
+            getchar();  // Limpa o buffer
             fgets(nome, 50, stdin);
-            nome[strcspn(nome, "\n")] = '\0';
+            nome[strcspn(nome, "\n")] = '\0';  // Remove o \n
             printf("Digite o email do cliente: ");
             fgets(email, 50, stdin);
-            email[strcspn(email, "\n")] = '\0';
+            email[strcspn(email, "\n")] = '\0';  // Remove o \n
             printf("Digite a idade do cliente: ");
             scanf("%d", &idade);
-            getchar();
-
             inserirCliente(nome, email, idade);
         } else if (opcao == 2) {
             char nome[50];
             printf("Digite o nome do cliente a ser buscado: ");
+            getchar();  // Limpa o buffer
             fgets(nome, 50, stdin);
-            nome[strcspn(nome, "\n")] = '\0';
+            nome[strcspn(nome, "\n")] = '\0';  // Remove o \n
             buscarCliente(nome);
         } else if (opcao == 3) {
             salvarClientesArquivo();
