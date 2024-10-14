@@ -90,6 +90,47 @@ PedidoSuporte removerPedido(Heap* heap) {
     return topo;
 }
 
+void realizarCompra(Heap* heap, NodoAVL* raizEstoque, int idItem, int quantidade, const char* nomeCliente) {
+    // Buscar cliente pelo nome
+    Cliente* cliente = buscarClientePedido(nomeCliente);
+    if (cliente == NULL) {
+        printf("Erro: Cliente não encontrado.\n");
+        return;
+    }
+
+    // Buscar item pelo ID no estoque
+    NodoAVL* itemEncontrado = buscar(raizEstoque, idItem);
+    if (itemEncontrado == NULL) {
+        printf("Erro: Item com ID %d não encontrado no estoque.\n", idItem);
+        return;
+    }
+
+    // Verificar se há quantidade suficiente em estoque
+    if (itemEncontrado->item.quantidade < quantidade) {
+        printf("Erro: Quantidade insuficiente em estoque.\n");
+        return;
+    }
+
+    // Calcular o preço total da compra
+    int precoTotal = itemEncontrado->item.preco * quantidade;
+
+    // Verificar se o cliente tem saldo suficiente na carteira
+    if (cliente->carteira < precoTotal) {
+        printf("Erro: Saldo insuficiente na carteira do cliente.\n");
+        return;
+    }
+
+    // Realizar a compra
+    cliente->carteira -= precoTotal;
+    itemEncontrado->item.quantidade -= quantidade;
+
+    printf("Compra realizada com sucesso!\n");
+    printf("Cliente: %s\n", cliente->nome);
+    printf("Item: %s | Quantidade: %d | Preço Total: %d\n",
+           itemEncontrado->item.nome, quantidade, precoTotal);
+    printf("Saldo restante na carteira: %d\n", cliente->carteira);
+}
+
 // Lista todos os pedidos na heap
 void listarPedidos(Heap* heap) {
     if (heap->tamanho == 0) {
@@ -106,14 +147,15 @@ void listarPedidos(Heap* heap) {
 }
 
 // Função de menu para o suporte ao cliente
-void menuSuporte(Heap* heap) {
+void menuSuporte(Heap* heap, NodoAVL* raizEstoque) {
     int opcao;
     do {
         printf("\n--- Menu de Suporte ---\n");
         printf("1. Inserir Pedido\n");
         printf("2. Atender Pedido\n");
         printf("3. Listar Pedidos\n");
-        printf("4. Sair\n");
+        printf("4. realizar compra\n");
+        printf("5. sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
         getchar();  // Limpa o buffer
@@ -149,8 +191,24 @@ void menuSuporte(Heap* heap) {
             }
         } else if (opcao == 3) {
             listarPedidos(heap);
-        } else if (opcao != 4) {
+        } else if (opcao == 4) {
+            int idItem, quantidade;
+            char nomeCliente[50];
+
+            printf("Digite o ID do item: ");
+            scanf("%d", &idItem);
+            printf("Digite a quantidade: ");
+            scanf("%d", &quantidade);
+            getchar();  // Limpar buffer
+
+            printf("Digite o nome do cliente: ");
+            fgets(nomeCliente, 50, stdin);
+            nomeCliente[strcspn(nomeCliente, "\n")] = '\0';
+
+            realizarCompra(heap, raizEstoque, idItem, quantidade, nomeCliente);
+        } else if (opcao != 5) {
             printf("Opção inválida. Tente novamente.\n");
         }
-    } while (opcao != 4);
+        
+    } while (opcao != 5);
 }

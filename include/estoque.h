@@ -39,4 +39,5 @@ void atualizarPreco(NodoAVL* raiz);
 void removerItem(NodoAVL** raiz);
 void menuEstoque(NodoAVL** raiz);
 
+
 #endif // ESTOQUE_H

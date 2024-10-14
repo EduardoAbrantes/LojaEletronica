@@ -324,3 +324,16 @@ void menuEstoque(NodoAVL** raiz) {
         }
     } while (opcao != 0);
 }
+
+NodoAVL* buscarItemAVL(NodoAVL* raiz, int id) {
+    if (raiz == NULL) {
+        return NULL;  // Item não encontrado.
+    }
+    if (id < raiz->item.id) {
+        return buscarItemAVL(raiz->esquerda, id);  // Busca na subárvore esquerda.
+    } else if (id > raiz->item.id) {
+        return buscarItemAVL(raiz->direita, id);  // Busca na subárvore direita.
+    } else {
+        return raiz;  // Item encontrado.
+    }
+}

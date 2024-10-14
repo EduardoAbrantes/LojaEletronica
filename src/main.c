@@ -35,7 +35,7 @@ int main(){
                 break;
             case 2:
                 limpar_tela();
-                menuSuporte(&heap);
+                menuSuporte(&heap, raiz);
                 break;
             case 3:
                 limpar_tela();
