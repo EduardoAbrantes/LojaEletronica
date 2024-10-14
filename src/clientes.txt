@@ -1,2 +1,1 @@
-Nome: Eduardo, Email: edu, Idade: 18, Carteira: 2000
-Nome: Amanda, Email: ama, Idade: 20, Carteira: 8000
+Nome: Eduardo, Email: edu, Idade: 18, Carteira: 5000

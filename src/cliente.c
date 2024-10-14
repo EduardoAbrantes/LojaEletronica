@@ -139,6 +139,39 @@ void carregarClientesArquivo() {
     fclose(arquivo);
 }
 
+void listarClientes() {
+    printf("\n--- Lista de Clientes ---\n");
+    for (int i = 0; i < TAMANHO_TABELA; i++) {
+        if (tabelaHash[i].ativo) {
+            printf("Nome: %s, Email: %s, Idade: %d, Carteira: %d\n",
+                   tabelaHash[i].nome,
+                   tabelaHash[i].email,
+                   tabelaHash[i].idade,
+                   tabelaHash[i].carteira);
+        }
+    }
+}
+
+void removerCliente(const char* nome) {
+    int posicao = funcaoHash(nome);
+    int original = posicao;
+    int i = 0;
+
+    while (tabelaHash[posicao].ativo) {
+        if (strcasecmp(tabelaHash[posicao].nome, nome) == 0) {
+            tabelaHash[posicao].ativo = 0; // Marca como inativo
+            printf("Cliente %s removido com sucesso!\n", nome);
+            return;
+        }
+        posicao = (original + ++i) % TAMANHO_TABELA;
+
+        if (posicao == original) {
+            break;
+        }
+    }
+    printf("Cliente %s não encontrado.\n", nome);
+}
+
 // Função de menu para o gerenciamento de clientes.
 void menuClientes() {
     int opcao;
@@ -147,7 +180,9 @@ void menuClientes() {
         printf("1. Inserir Cliente\n");
         printf("2. Buscar Cliente\n");
         printf("3. Alterar Carteira do Cliente\n");
-        printf("4. Salvar e Sair\n");
+        printf("4. Remover Cliente\n");
+        printf("5. Listar Clientes\n");
+        printf("6. Salvar e Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
         getchar();  // Limpa o buffer
@@ -182,10 +217,18 @@ void menuClientes() {
             scanf("%d", &novaCarteira);
             alterarCarteira(nome, novaCarteira);
         } else if (opcao == 4) {
+            char nome[50];
+            printf("Digite o nome do cliente a ser removido: ");
+            fgets(nome, 50, stdin);
+            nome[strcspn(nome, "\n")] = '\0';  // Remove o \n
+            removerCliente(nome);  // Chama a função para remover cliente
+        } else if (opcao == 5) {
+            listarClientes();  // Chama a função para listar clientes
+        } else if (opcao == 6) {
             salvarClientesArquivo();
             printf("Saindo...\n");
         } else {
             printf("Opção inválida. Tente novamente.\n");
         }
-    } while (opcao != 4);
+    } while (opcao != 6);
 }

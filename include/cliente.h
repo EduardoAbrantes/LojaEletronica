@@ -17,4 +17,5 @@ void buscarCliente(const char* nome);
 void salvarClientesArquivo();
 void alterarCarteira(const char* nome, int novaCarteira);
 void carregarClientesArquivo();
+void listarClientes();
 void menuClientes();
