@@ -212,3 +212,45 @@ void menuSuporte(Heap* heap, NodoAVL* raizEstoque) {
         
     } while (opcao != 5);
 }
+
+void salvarPedidos(Heap* heap, const char* nomeArquivo) {
+    FILE* arquivo = fopen(nomeArquivo, "w");
+    if (arquivo == NULL) {
+        printf("Erro: Não foi possível abrir o arquivo %s para salvar.\n", nomeArquivo);
+        return;
+    }
+
+    for (int i = 0; i < heap->tamanho; i++) {
+        PedidoSuporte* p = &heap->pedidos[i];
+        fprintf(arquivo, "%s\n%s\n%d\n", 
+                p->cliente->nome, p->descricao, p->prioridade);
+    }
+
+    fclose(arquivo);
+    printf("Pedidos salvos com sucesso em %s!\n", nomeArquivo);
+}
+
+void carregarPedidos(Heap* heap, const char* nomeArquivo) {
+    FILE* arquivo = fopen(nomeArquivo, "r");
+    if (arquivo == NULL) {
+        printf("Nenhum arquivo de pedidos encontrado. Começando com a fila vazia.\n");
+        return;
+    }
+
+    char nomeCliente[50], descricao[100];
+    int prioridade;
+
+    while (fscanf(arquivo, "%49[^\n]\n%99[^\n]\n%d\n", 
+                  nomeCliente, descricao, &prioridade) == 3) {
+        Cliente* cliente = buscarClientePedido(nomeCliente);
+        if (cliente == NULL) {
+            printf("Erro: Cliente %s não encontrado. Ignorando pedido.\n", nomeCliente);
+            continue;
+        }
+
+        inserirPedido(heap, cliente, descricao, prioridade);
+    }
+
+    fclose(arquivo);
+    printf("Pedidos carregados com sucesso de %s!\n", nomeArquivo);
+}

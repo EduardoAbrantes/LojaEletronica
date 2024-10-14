@@ -12,6 +12,7 @@ int main(){
 
     carregarClientesArquivo();
     carregarItensArquivo("estoque.txt", &raiz);
+    carregarPedidos(&heap, "pedidos.txt");
     limpar_tela();
     
 
@@ -43,6 +44,7 @@ int main(){
                 break;
             case 4:
                 limpar_tela();
+                salvarPedidos(&heap, "pedidos.txt");
                 printf("Saindo... Obrigado por usar o TechFix!\n");
                 break;
             default:
