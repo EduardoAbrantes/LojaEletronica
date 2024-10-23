@@ -1,6 +1,6 @@
 Eduardo
-reparo
-1
+conserto
+2
 Samuel
 limpeza
 4

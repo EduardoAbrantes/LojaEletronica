@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "*.C": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "estoque.h": "c",
+        "suporte.h": "c"
     }
 }
